@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">Расчеты УВВИ</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <string name="loan_amount_prompt">Измеренные</string>
+    <string name="interest_rate_prompt">Температура</string>
+    <string name="loan_period_prompt">Предыдущие</string>
+
+    <color name="listcolor">#FFE87C</color>
+    <color name="black">#000000</color>
+    <string name="title_activity_edit2">Edit2Activity</string>
+    <string name="dv">Двигатель</string>
+    <string name="riz">изоляция</string>
+    <string name="om">СПТ</string>
+    <string name="n">Нелинейность</string>
+    <string name="N">Коэфициент нелин.=</string>
+    <string name="omCircle">СПТ выше 5000кВт</string>
+
+    <string name="item1">УВВИ</string>
+    <string name="item2">open</string>
+    <string name="item3">close</string>
+    <string name="item_SN">ВН - сторона</string>
+    <string name="item_TN">НН - сторона</string>
+    <string name="item_G">Вариант</string>
+    <string name="item_tn">Омы</string>
+    <string name="item_tn2">коэфициент тр-ции</string>
+    <string name="search">search</string>
+    <string name="G">G</string>
+    <string name="WN">Обмотка ВН</string>
+    <string name="NN">Обмотка НН</string>
+    <string name="Resolt">Коэфициент</string>
+    <string name="action_data">DATA</string>
+    <string name="catfood">Сохранено в папку screenshots</string>
+    <string name="aA">Показания амперметра А</string>
+    <string name="W">Показания Ватметра W</string>
+    <string name="B">Контрольный виток</string>
+    <string name="I">Магнитная индукция =</string>
+    <string name="P">удельная мощность Р=</string>
+    <string name="A">ток А=</string>
+    <string name="shcala">Шкала делений 100-150</string>
+    <string name="deleniya">Деления</string>
+    <string name="wattmetr">Шкала делений Ваттметра</string>
+    <string name="wattmetr1">Деления</string>
+    <string name="amperMetr">Амперметр</string>
+    <string name="watt">Ваттметр</string>
+    <string name="volt">Вольтметр</string>
+    <string name="volt1">Шкала деления</string>
+    <string name="resAmper">Результат А=</string>
+    <string name="resWat">Результат W=</string>
+    <string name="resVolt">Результат V=</string>
+    <string name="Pn">приведенная мощность Р=</string>
+    <string name="shcala1">предел измерения</string>
+    <string name="wattmetr2">Предел измерения</string>
+    <string name="volt0">Предел измерения</string>
+    <string name="B1">A</string>
+    <string name="W1">W</string>
+    <string name="V1">V</string>
+    <string name="wattmetr11">Ток</string>
+    <string name="action_nomber">номер</string>
+    <string name="fragmentG2">Приборы</string>
+    <string name="fragmentG1">Основной расчет</string>
+    <string name="Time">Время=</string>
+    <string name="load">Load</string>
+    <string name="Save">SaveInfo</string>
+
+    <string name="monthly_payment_prompt">Приведение к 20 С</string>
+    <string name="total_payments_prompt">процент расхождения</string>
+    <string name="total_payments_prompt1">расхождения от 240</string>
+
+    <string name="no_todos">Нет текущих расчетов</string>
+    <string name="menu_insert">Добавить</string>
+    <string name="menu_delete">Удалить</string>
+    <string name="todo_summary">Кратко</string>
+    <string name="todo_description">Описание</string>
+    <string name="todo_confirm">Применить</string>
+
+
+    <string name="x1">x1</string>
+    <string name="x2">x2</string>
+    <string name="x3">x3</string>
+    <string name="v1">1 виток</string>
+    <string name="v2">2 витка</string>
+    <string name="Place">Положение</string>
+    <string name="Ab">AB</string>
+    <string name="Bc">BC</string>
+    <string name="Ac">AC</string>
+    <string name="todo_save">Сохранить</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="chart">График</string>
+    <string name="data">Данные</string>
+    <string name="Basa_load">Basa</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="send">отправить</string>
+
+
+</resources>
