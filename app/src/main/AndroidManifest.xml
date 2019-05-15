@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kalkull.ruslanann.kalkulator24">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -21,20 +22,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".database.DataActivity"
+            android:name=".database.DataSqlGen"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".database.EditActivity"
+            android:name=".database.EditSqlGen"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".database.Data2Activity"
+            android:name=".database.DataSqlTrans"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".database.Edit2Activity"
+            android:name=".database.EditSqlTrans"
             android:label="@string/title_activity_edit2"
             android:screenOrientation="portrait" />
         <activity
@@ -42,7 +43,7 @@
             android:label="Расчеты" />
         <activity
             android:name=".sdActivity.EditSdActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

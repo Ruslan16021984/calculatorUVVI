@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import kalkull.ruslanann.kalkulator24.R;
-import kalkull.ruslanann.kalkulator24.database.EditActivity;
+import kalkull.ruslanann.kalkulator24.database.EditSqlGen;
 
 public class SdActivity extends AppCompatActivity {
     private static final String DIRECTORY_DOCS = "/documents";
@@ -65,7 +65,7 @@ public class SdActivity extends AppCompatActivity {
     }
 
     private void createNewTask() {
-        Intent intent = new Intent(this, EditActivity.class);
+        Intent intent = new Intent(this, EditSqlGen.class);
         startActivityForResult(intent, ACTIVITY_CREATE);
     }
 

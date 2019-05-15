@@ -17,8 +17,6 @@ public class ToDoDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_TABLE = "todos";
     private static final String TABLE_TRANS = "trans";
 
-    private static final String DATABASE_DATA1 = "datatrans";
-
    // поля таблицы
     public static final String COLUMN_ID = "_id";
 

@@ -11,6 +11,7 @@ import java.util.Map;
 import kalkull.ruslanann.kalkulator24.base.BaseFragment;
 import kalkull.ruslanann.kalkulator24.fragments.Dizel12.Dizel1;
 import kalkull.ruslanann.kalkulator24.fragments.Dizel12.Dizel2;
+import kalkull.ruslanann.kalkulator24.fragments.Dizel12.Dizel3;
 
 /**
  * Created by CARD on 04.02.2016.
@@ -42,5 +43,6 @@ public class AdapterDizel extends FragmentPagerAdapter {
         tabs = new HashMap<>();
         tabs.put(0, Dizel1.getInstance(context));
         tabs.put(1, Dizel2.getInstance(context));
+        tabs.put(2, Dizel3.getInstance(context));
     }
 }

@@ -2,12 +2,6 @@
     xmlns:sabd="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/ic_contact_mail_white_24dp"
-        android:orderInCategory="100"
-        android:title="@string/send"
-        sabd:showAsAction="ifRoom"/>
-    <item
         android:id="@+id/action_data"
         android:icon="@drawable/ic_calendar_clock"
         android:orderInCategory="100"

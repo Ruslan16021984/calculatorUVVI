@@ -13,8 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import kalkull.ruslanann.kalkulator24.database.Data2Activity;
-import kalkull.ruslanann.kalkulator24.database.DataActivity;
+import kalkull.ruslanann.kalkulator24.database.DataSqlTrans;
+import kalkull.ruslanann.kalkulator24.database.DataSqlGen;
 import kalkull.ruslanann.kalkulator24.screenfragments.ScreenDV;
 import kalkull.ruslanann.kalkulator24.screenfragments.ScreenDizel;
 import kalkull.ruslanann.kalkulator24.screenfragments.ScreenOne;
@@ -71,11 +71,11 @@ public abstract class BaseDrawerActivity extends AppCompatActivity implements Na
             fragment = new ScreenDV();
 
         } else if (id == R.id.nav_share) {
-            Intent intent = new Intent(this, Data2Activity.class);
+            Intent intent = new Intent(this, DataSqlTrans.class);
             startActivity(intent);
             overridePendingTransition(R.anim.open_next, R.anim.close_main);
         } else if (id == R.id.nav_send){
-            Intent intent2 = new Intent(this, DataActivity.class);
+            Intent intent2 = new Intent(this, DataSqlGen.class);
             startActivity(intent2);
             overridePendingTransition(R.anim.open_next, R.anim.close_main);
         }

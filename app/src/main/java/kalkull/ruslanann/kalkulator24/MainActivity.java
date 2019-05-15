@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.provider.DocumentFile;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,13 +28,11 @@ public class MainActivity extends BaseDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mPath = Environment.getExternalStorageDirectory().toString() + SCREEN_SHOTS_LOCATION;
-        File folder = new File(mPath);
+     //   mPath = Environment.getExternalStorageDirectory().toString() + SCREEN_SHOTS_LOCATION;
+      //  File folder = new File(mPath);
 
         // Если папки не существует, то создадим её
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
+//
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         createDrawer(toolbar);
@@ -53,16 +52,11 @@ public class MainActivity extends BaseDrawerActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         switch (item.getItemId()) {
-            case R.id.action_search:
-                captureScreen();
-                break;
+
 
             case R.id.action_data:
                 tv2 = (TextView) findViewById(R.id.data41);
@@ -77,60 +71,13 @@ public class MainActivity extends BaseDrawerActivity {
         return true;
     }
 
-    private void captureScreen() {
-        View v = getWindow().getDecorView().getRootView();
-        v.setDrawingCacheEnabled(true);
-        Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
-        v.setDrawingCacheEnabled(false);
-        File picDir = Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File picFile = new File(picDir + "/" + "card.png");
-
-        try {
-            picFile.createNewFile();
-            FileOutputStream picOut = new FileOutputStream(picFile);
-            boolean worked = bmp.compress(Bitmap.CompressFormat.PNG, 100,
-                    picOut);
-            if (worked) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        "Image saved to your device Pictures "
-                                + "directory!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Whoops! File not saved.", Toast.LENGTH_SHORT)
-                        .show();
-            }
-            picOut.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG)
-                    .show();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG)
-                    .show();
-        }
-        Intent picMessageIntent = new Intent(Intent.ACTION_SEND);
-        picMessageIntent.setType("image/jpeg");
-        File downloadedPic = new File(
-                Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                "card.png");
-
-        picMessageIntent.putExtra(Intent.EXTRA_STREAM,
-                Uri.fromFile(downloadedPic));
-
-        startActivity(picMessageIntent);
-
-    }
     @Override
     public void onBackPressed() {
-        if (back_pressed + 2000 > System.currentTimeMillis())
-
+        if (back_pressed + 2000 > System.currentTimeMillis()){
             super.onBackPressed();
+            finish();
+        }
+
 
         else
             Toast.makeText(getBaseContext(), "хотите выйти нажмите ещё раз!",

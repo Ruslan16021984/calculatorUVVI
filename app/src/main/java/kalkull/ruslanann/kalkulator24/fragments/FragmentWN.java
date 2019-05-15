@@ -27,6 +27,7 @@ import android.widget.Toast;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.math.BigDecimal;
 
 import kalkull.ruslanann.kalkulator24.R;
 import kalkull.ruslanann.kalkulator24.base.BaseFragment;
@@ -106,15 +107,13 @@ public class FragmentWN extends BaseFragment
         sPoloz = (Spinner) view.findViewById(R.id.spinner2);
         sFaza = (Spinner) view.findViewById(spinner);
 
-        // сформируем путь для хранения файлов
-        mPath = Environment.getExternalStorageDirectory().toString() + DIRECTORY_DOCS;
 
-        File folder = new File(mPath);
-
-// Если папки не существует, то создадим её
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
+//        File folder = new File(String.valueOf(mPath));
+//
+//// Если папки не существует, то создадим её
+//        if (!folder.exists()) {
+//            folder.mkdir();
+//        }
         mRadioOsGroup = (RadioGroup) view.findViewById(R.id.radio1);
         mRadioOsGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -244,10 +243,12 @@ public class FragmentWN extends BaseFragment
         num4 = Float.parseFloat(etNam4.getText().toString());
         result = (float) (num2 * 7.5 * x / 150 / num1);
         tvResult.setText(String.format(oper + "%.4f", result) + " " + "Ом");
-        result =Float.parseFloat(String.format(oper + "%.4f", result));
+        //result =Float.parseFloat(String.format("%.4f", result));
+        result = new BigDecimal(result).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
         result2 = result * 255 / (235 + num3);
         tvResult2.setText(String.format(oper + "%.4f", result2) + " " + "Ом");
-        result2 = Float.parseFloat(String.format(oper + "%.4f", result2));
+    //    result2 = Float.parseFloat(String.format(oper + "%.4f", result2));
+        result2 = new BigDecimal(result2).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
         result3 = (result2 / num4) * 100 - 100;
         tvResult5.setText(String.format(oper + "%.4f", result3) + " "+"%");
         if (result3 != 0) {

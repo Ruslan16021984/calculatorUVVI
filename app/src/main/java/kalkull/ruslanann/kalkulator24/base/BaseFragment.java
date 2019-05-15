@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.File;
+
 import kalkull.ruslanann.kalkulator24.database.ToDoDatabase;
 
 /**
@@ -21,9 +23,8 @@ public class BaseFragment extends Fragment {
     protected Context context;
     protected View view;
     protected static final String DIRECTORY_DOCS = "/documents";
-    protected String mPath;
+    protected File  mPath;
     protected int mPos = 0;
-    protected TextView showSd;
     protected String oper = "";
     protected String mCurFileName;
     protected String c = "0";
@@ -42,7 +43,8 @@ public class BaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-        mPath = Environment.getExternalStorageDirectory().toString() + DIRECTORY_DOCS;
+        mPath = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS);
 
     }
 

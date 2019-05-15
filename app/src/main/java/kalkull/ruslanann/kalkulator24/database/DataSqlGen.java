@@ -1,6 +1,10 @@
 package kalkull.ruslanann.kalkulator24.database;
 
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,27 +19,35 @@ import android.widget.SimpleCursorAdapter;
 import kalkull.ruslanann.kalkulator24.R;
 
 
-public class Data2Activity extends AppCompatActivity {
-
+public class DataSqlGen extends AppCompatActivity implements
+        LoaderCallbacks<Cursor> {
     private ToDoDatabase dbHelper;
     private static final int ACTIVITY_CREATE = 0;
     private static final int ACTIVITY_EDIT = 1;
     private static final int DELETE_ID = Menu.FIRST + 1;
-    private Cursor cursor;
+    // private Cursor cursor;
     private ListView listView;
-
+    private SimpleCursorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_data2);
-;
+        setContentView(R.layout.activity_data);
         dbHelper = new ToDoDatabase(this);
         listView = (ListView) findViewById(R.id.list);
         fillData();
         registerForContextMenu(listView);
 
+
     }
+
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        getLoaderManager().getLoader(0).forceLoad();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -52,46 +64,49 @@ public class Data2Activity extends AppCompatActivity {
                 createNewTask();
                 break;
             case android.R.id.home:
-//                NavUtils.navigateUpFromSameTask(this);
                 overridePendingTransition(R.anim.open_main, R.anim.close_next);
                 break;
+
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case DELETE_ID:
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
                         .getMenuInfo();
-                dbHelper.deleteTans(info.id);
-                fillData();
+                dbHelper.deleteTodo(info.id);
+                getLoaderManager().getLoader(0).forceLoad();
+                //fillData();
                 return true;
         }
         return super.onContextItemSelected(item);
     }
+
     private void createNewTask() {
-        Intent intent = new Intent(this, Edit2Activity.class);
+        Intent intent = new Intent(this, EditSqlGen.class);
         startActivityForResult(intent, ACTIVITY_CREATE);
         overridePendingTransition(R.anim.open_next, R.anim.close_main);
     }
-    private void fillData() {
-        cursor = dbHelper.getAllTrans();
-        startManagingCursor(cursor);
 
-        String[] from = new String[] { ToDoDatabase.COLUMN_SUMMARY };
-        int[] to = new int[] { R.id.label };
+    private void fillData() {
+
+        String[] from = new String[]{ToDoDatabase.COLUMN_SUMMARY};
+        int[] to = new int[]{R.id.label};
 
         // Теперь создадим адаптер массива и установим его для отображения наших
         // данных
-        SimpleCursorAdapter notes = new SimpleCursorAdapter(this,
-                R.layout.list_row, cursor, from, to);
-        listView.setAdapter(notes);
+        adapter = new SimpleCursorAdapter(this,
+                R.layout.list_row, null, from, to, 0);
+        listView.setAdapter(adapter);
+        getLoaderManager().initLoader(0, null, this);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(Data2Activity.this, Edit2Activity.class);
-                intent.putExtra(ToDoDatabase.TRANS_ID, id);
+                Intent intent = new Intent(DataSqlGen.this, EditSqlGen.class);
+                intent.putExtra(ToDoDatabase.COLUMN_ID, id);
                 // активити вернет результат если будет вызвано с помощью этого метода
                 startActivityForResult(intent, ACTIVITY_EDIT);
                 overridePendingTransition(R.anim.open_next, R.anim.close_main);
@@ -112,6 +127,7 @@ public class Data2Activity extends AppCompatActivity {
         }
 
     }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -122,8 +138,41 @@ public class Data2Activity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (dbHelper != null) {
-            dbHelper.close();
+        dbHelper.close();
+    }
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        // TODO Auto-generated method stub
+        return new MyCursorLoader(this, dbHelper);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        // TODO Auto-generated method stub
+        adapter.swapCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // TODO Auto-generated method stub
+        adapter.swapCursor(null);
+    }
+
+    static class MyCursorLoader extends CursorLoader {
+        ToDoDatabase db;
+
+        public MyCursorLoader(Context context, ToDoDatabase db) {
+            super(context);
+            this.db = db;
+        }
+
+        @Override
+        public Cursor loadInBackground() {
+            Cursor cursor = db.getAllTodos();
+
+            return cursor;
         }
     }
 

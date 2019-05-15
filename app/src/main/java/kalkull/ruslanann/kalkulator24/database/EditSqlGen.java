@@ -12,16 +12,14 @@ import android.widget.Toast;
 import kalkull.ruslanann.kalkulator24.R;
 
 
-public class Edit2Activity extends AppCompatActivity {
+public class EditSqlGen extends AppCompatActivity {
+    private TextView info;
+    private TextView resolt;
+    private TextView resolt2;
+    private TextView resolt3;
+    private TextView resolt4;
+    private TextView resolt5;
 
-   private TextView info;
-   private TextView resolt;
-   private TextView resolt2;
-   private TextView resolt3;
-   private TextView amper;
-   private TextView volt;
-   private TextView gradus;
-   private TextView first;
     private Long mRowId;
     private ToDoDatabase mDbHelper;
 
@@ -31,16 +29,14 @@ public class Edit2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDbHelper = new ToDoDatabase(this);
-        setContentView(R.layout.activity_edit2);
+        setContentView(R.layout.activity_edit);
+
         info = (TextView) findViewById(R.id.todo_edit_summary);
         resolt = (TextView) findViewById(R.id.tvResultSave);
-        resolt2 = (TextView) findViewById(R.id.result2Save);
-        resolt3 = (TextView) findViewById(R.id.result5);
-        amper = (TextView) findViewById(R.id.tvAmper);
-        volt = (TextView) findViewById(R.id.tvVolt);
-        gradus = (TextView) findViewById(R.id.tvGradus);
-        first = (TextView) findViewById(R.id.tvFirst);
-
+        resolt2 = (TextView) findViewById(R.id.result4);
+        resolt3 = (TextView) findViewById(R.id.result2Save);
+        resolt4 = (TextView) findViewById(R.id.result3Save);
+        resolt5 = (TextView) findViewById(R.id.resulTime);
 
         Button confirmButton = (Button) findViewById(R.id.todo_edit_button);
         mRowId = null;
@@ -57,7 +53,7 @@ public class Edit2Activity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (TextUtils.isEmpty(info.getText().toString())) {
-                    Toast.makeText(Edit2Activity.this, "Данные не введены",
+                    Toast.makeText(EditSqlGen.this, "Данные не введены",
                             Toast.LENGTH_LONG).show();
                 } else {
                     saveState();
@@ -72,27 +68,23 @@ public class Edit2Activity extends AppCompatActivity {
     }
     private void populateFields() {
         if (mRowId != null) {
-            Cursor totans = mDbHelper.getTrans(mRowId);
+            Cursor todo = mDbHelper.getTodo(mRowId);
+            startManagingCursor(todo);
 
-            startManagingCursor(totans);
 
-            info.setText(totans.getString(totans
+            info.setText(todo.getString(todo
                     .getColumnIndexOrThrow(ToDoDatabase.COLUMN_SUMMARY)));
-            resolt.setText(totans.getString(totans
-                    .getColumnIndexOrThrow(ToDoDatabase.COLUMN_AMPER)));
-            resolt2.setText(totans.getString(totans
-                    .getColumnIndexOrThrow(ToDoDatabase.COLUMN_GRADUS)));
-            resolt3.setText(totans.getString(totans
-                    .getColumnIndexOrThrow(ToDoDatabase.COLUMN_PROCENT)));
-            amper.setText(totans.getString(totans
-                    .getColumnIndexOrThrow(ToDoDatabase.COLUMN_AMPERN)));
-            volt.setText(totans.getString(totans
-                    .getColumnIndexOrThrow(ToDoDatabase.COLUMN_VOLTN)));
-            gradus.setText(totans.getString(totans
-                    .getColumnIndexOrThrow(ToDoDatabase.COLUMN_GRADUSN)));
-            first.setText(totans.getString(totans
-                    .getColumnIndexOrThrow(ToDoDatabase.COLUMN_FIRST)));
-            totans.close();
+            resolt.setText(todo.getString(todo
+                    .getColumnIndexOrThrow(ToDoDatabase.COLUMN_DESCRIPTION)));
+            resolt2.setText(todo.getString(todo
+                    .getColumnIndexOrThrow(ToDoDatabase.COLUMN_DESCRIPTIONA)));
+            resolt3.setText(todo.getString(todo
+                    .getColumnIndexOrThrow(ToDoDatabase.COLUMN_DESCRIPTIONB)));
+            resolt4.setText(todo.getString(todo
+                    .getColumnIndexOrThrow(ToDoDatabase.COLUMN_DESCRIPTIONC)));
+            resolt5.setText(todo.getString(todo
+                    .getColumnIndexOrThrow(ToDoDatabase.COLUMN_DESCRIPTIOND)));
+            todo.close();
 
 
         }
@@ -101,8 +93,8 @@ public class Edit2Activity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        saveState();
-        outState.putSerializable(ToDoDatabase.COLUMN_ID, mRowId);
+        //saveState();
+        //outState.putSerializable(ToDoDatabase.COLUMN_ID, mRowId);
     }
 
     @Override
@@ -122,24 +114,22 @@ public class Edit2Activity extends AppCompatActivity {
         String description = resolt.getText().toString();
         String descriptiona = resolt2.getText().toString();
         String descriptionb = resolt3.getText().toString();
-        String ampern = amper.getText().toString();
-        String voltn = volt.getText().toString();
-        String gradusn = gradus.getText().toString();
-        String firstn = first.getText().toString();
+        String descriptionc = resolt4.getText().toString();
+        String descriptiond = resolt5.getText().toString();
 
         if (description.length() == 0 && summary.length() == 0) {
             return;
         }
 
         if (mRowId == null) {
-            long id = mDbHelper.createNewTrans(summary, description, descriptiona,
-                    descriptionb, ampern, voltn, gradusn, firstn);
+            long id = mDbHelper.createNewTodo(summary, description, descriptiona,
+                    descriptionb, descriptionc, descriptiond);
             if (id > 0) {
                 mRowId = id;
             }
         } else {
-            mDbHelper.updateTrans(mRowId, summary, description, descriptiona,
-                    descriptionb, ampern, voltn, gradusn, firstn);
+            mDbHelper.updateTodo(mRowId, summary, description, descriptiona,
+                    descriptionb, descriptionc, descriptiond);
         }
     }
 

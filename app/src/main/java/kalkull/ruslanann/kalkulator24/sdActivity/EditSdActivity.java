@@ -39,8 +39,8 @@ public class EditSdActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_sd);
-        editor = (EditText)findViewById(R.id.editor);
-        editSummary = (EditText)findViewById(R.id.todo_edit_summary);
+        editor = (EditText) findViewById(R.id.editor);
+        editSummary = (EditText) findViewById(R.id.todo_edit_summary);
 
         Bundle extras = getIntent().getExtras();
         mCurFileName = (String) extras.get("name");
@@ -52,12 +52,13 @@ public class EditSdActivity extends AppCompatActivity {
         File folder = new File(mPath);
 
 // Если папки не существует, то создадим её
-        if(!folder.exists()) {
+        if (!folder.exists()) {
             folder.mkdir();
         }
         openFile(mCurFileName);
 
     }
+
     private void openFile(String fileName) {
         try {
             File file = new File(mPath, fileName);
@@ -86,27 +87,19 @@ public class EditSdActivity extends AppCompatActivity {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         switch (item.getItemId()) {
-            case R.id.action_search:
-               captureScreen();
 
-
-                break;
 
             case R.id.action_data:
 
@@ -118,13 +111,12 @@ public class EditSdActivity extends AppCompatActivity {
                 break;
 
 
-
-
             default:
                 return false;
         }
         return true;
     }
+
     private void captureScreen() {
         View v = getWindow().getDecorView().getRootView();
         v.setDrawingCacheEnabled(true);
@@ -177,6 +169,7 @@ public class EditSdActivity extends AppCompatActivity {
         startActivity(picMessageIntent);
 
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
