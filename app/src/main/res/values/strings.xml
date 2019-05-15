@@ -11,7 +11,7 @@
 
     <color name="listcolor">#FFE87C</color>
     <color name="black">#000000</color>
-    <string name="title_activity_edit2">Edit2Activity</string>
+    <string name="title_activity_edit2">База данных трансформаторов</string>
     <string name="dv">Двигатель</string>
     <string name="riz">изоляция</string>
     <string name="om">СПТ</string>

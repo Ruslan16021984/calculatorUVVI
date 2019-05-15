@@ -2,7 +2,6 @@ package kalkull.ruslanann.kalkulator24.fragments.Dizel12;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,7 +31,6 @@ import java.math.BigDecimal;
 import kalkull.ruslanann.kalkulator24.R;
 import kalkull.ruslanann.kalkulator24.base.BaseFragment;
 import kalkull.ruslanann.kalkulator24.database.ToDoDatabase;
-import kalkull.ruslanann.kalkulator24.sdActivity.SdActivity;
 
 import static kalkull.ruslanann.kalkulator24.R.id.spinner;
 
@@ -94,14 +92,6 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
 
         sPoloz = (Spinner) view.findViewById(R.id.spinner2);
         sFaza = (Spinner) view.findViewById(spinner);
-
-
-//        File folder = new File(String.valueOf(mPath));
-//
-//// Если папки не существует, то создадим её
-//        if (!folder.exists()) {
-//            folder.mkdir();
-//        }
         mRadioOsGroup = (RadioGroup) view.findViewById(R.id.radio1);
         mRadioOsGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -147,17 +137,6 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
             case R.id.action_base:
 
                 saveState();
-                break;
-            case R.id.action_data1:
-//                showSaveFileDialog();
-                break;
-            case R.id.action_save:
-                showSaveSdDialog();
-                break;
-            case R.id.action_Shown:
-                Intent intent = new Intent(getActivity(), SdActivity.class);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.open_next, R.anim.close_main);
                 break;
 
             default:

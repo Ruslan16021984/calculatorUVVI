@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sabd="http://schemas.android.com/apk/res-auto" >
-    <item
-        android:id="@+id/action_data1"
-        android:icon="@drawable/ic_attachment_white_24dp"
-        android:orderInCategory="100"
-        android:title="@string/action_nomber"
-        sabd:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/action_base"
         android:icon="@drawable/ic_add_box_white_24dp"

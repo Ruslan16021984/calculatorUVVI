@@ -116,9 +116,7 @@ public class Dizel2 extends BaseFragment implements View.OnClickListener {
 
                 saveState();
                 break;
-            case R.id.action_data1:
-                showSaveFileDialog();
-                break;
+
 
             default:
                 return false;

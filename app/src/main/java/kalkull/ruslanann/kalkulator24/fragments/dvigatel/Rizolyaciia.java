@@ -91,18 +91,6 @@ public class Rizolyaciia extends BaseFragment implements View.OnClickListener{
 
 //                saveState();
                 break;
-            case R.id.action_data1:
-//                showSaveFileDialog();
-                break;
-            case R.id.action_save:
-                showSaveSdDialog();
-                break;
-            case R.id.action_Shown:
-                Intent intent = new Intent(getActivity(), SdActivity.class);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.open_next, R.anim.close_main);
-                break;
-
             default:
                 return false;
         }
