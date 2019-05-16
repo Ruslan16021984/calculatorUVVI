@@ -1,0 +1,178 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:shrinkColumns="1"
+        android:stretchColumns="1">
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Показания Амперметра" />
+
+            <EditText
+                android:id="@+id/etNam1"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal">
+
+            </EditText>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="ВольтАмперметр(деления)" />
+
+            <EditText
+                android:id="@+id/etNam2"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Температура" />
+
+            <EditText
+                android:id="@+id/etNam3"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Предыдущие данные" />
+
+            <EditText
+                android:id="@+id/etNam4"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+        </TableRow>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:id="@+id/radio1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/x1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:checked="false"
+                    android:text="x1" />
+
+                <RadioButton
+                    android:id="@+id/x2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="false"
+                    android:text="x2" />
+
+                <RadioButton
+                    android:id="@+id/x3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="false"
+                    android:text="x3" />
+            </RadioGroup>
+
+
+        </RelativeLayout>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/button"
+                style="@style/ButtonText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:background="@drawable/roundrect"
+                android:text="Посчитать" />
+        </TableRow>
+
+        <TableRow android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="результат при ( 9 ) 10  А " />
+
+            <TextView
+                android:id="@+id/tvResultSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textColor="#6200ff"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="привести к 15 С " />
+
+            <TextView
+                android:id="@+id/result2Save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textColor="#6200ff"
+                android:textSize="16sp" />
+        </TableRow>
+
+
+        <TableRow android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/red"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Расхождение от предыдущих " />
+
+            <TextView
+                android:id="@+id/result5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textColor="#6200ff"
+                android:textSize="16sp" />
+        </TableRow>
+
+
+    </TableLayout>
+
+
+</ScrollView>

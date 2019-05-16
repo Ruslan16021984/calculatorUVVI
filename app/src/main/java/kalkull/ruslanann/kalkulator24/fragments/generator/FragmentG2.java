@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import kalkull.ruslanann.kalkulator24.R;
-import kalkull.ruslanann.kalkulator24.base.BaseFragment;
+import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
 
 /**
  * Created by CARD on 12.01.2016.
@@ -110,10 +110,7 @@ public class FragmentG2 extends BaseFragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.btnClear:
-
-                break;
-        }
+         }
 
         return true;
     }

@@ -1,25 +1,18 @@
 package kalkull.ruslanann.kalkulator24;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
+
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.provider.DocumentFile;
+
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 
-import kalkull.ruslanann.kalkulator24.screenfragments.ScreenOne;
+import kalkull.ruslanann.kalkulator24.base_activity.BaseDrawerActivity;
+import kalkull.ruslanann.kalkulator24.inner_fragmenrs.ScreenOne;
 
 public class MainActivity extends BaseDrawerActivity {
     private static long back_pressed;
@@ -28,11 +21,7 @@ public class MainActivity extends BaseDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-     //   mPath = Environment.getExternalStorageDirectory().toString() + SCREEN_SHOTS_LOCATION;
-      //  File folder = new File(mPath);
 
-        // Если папки не существует, то создадим её
-//
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         createDrawer(toolbar);
@@ -45,7 +34,6 @@ public class MainActivity extends BaseDrawerActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -53,8 +41,6 @@ public class MainActivity extends BaseDrawerActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         switch (item.getItemId()) {
 
 

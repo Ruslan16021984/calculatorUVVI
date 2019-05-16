@@ -3,7 +3,7 @@
     xmlns:sabd="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_data"
-        android:icon="@drawable/ic_calendar_clock"
+        android:icon="@drawable/ic_data_range"
         android:orderInCategory="100"
         android:title="@string/action_data"
         sabd:showAsAction="ifRoom"/>

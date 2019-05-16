@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import kalkull.ruslanann.kalkulator24.R;
-import kalkull.ruslanann.kalkulator24.base.BaseFragment;
+import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
 import kalkull.ruslanann.kalkulator24.database.ToDoDatabase;
 
 /**

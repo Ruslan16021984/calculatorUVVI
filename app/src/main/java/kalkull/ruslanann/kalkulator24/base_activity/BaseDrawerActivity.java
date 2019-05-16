@@ -1,4 +1,4 @@
-package kalkull.ruslanann.kalkulator24;
+package kalkull.ruslanann.kalkulator24.base_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +13,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import kalkull.ruslanann.kalkulator24.R;
 import kalkull.ruslanann.kalkulator24.database.DataSqlTrans;
 import kalkull.ruslanann.kalkulator24.database.DataSqlGen;
-import kalkull.ruslanann.kalkulator24.screenfragments.ScreenDV;
-import kalkull.ruslanann.kalkulator24.screenfragments.ScreenDizel;
-import kalkull.ruslanann.kalkulator24.screenfragments.ScreenOne;
-import kalkull.ruslanann.kalkulator24.screenfragments.ScreenThree;
-import kalkull.ruslanann.kalkulator24.screenfragments.ScreenTwo;
+import kalkull.ruslanann.kalkulator24.inner_fragmenrs.ScreenDV;
+import kalkull.ruslanann.kalkulator24.inner_fragmenrs.ScreenDizel;
+import kalkull.ruslanann.kalkulator24.inner_fragmenrs.ScreenOne;
+import kalkull.ruslanann.kalkulator24.inner_fragmenrs.ScreenThree;
+import kalkull.ruslanann.kalkulator24.inner_fragmenrs.ScreenTwo;
 
 /**
  * Created by user on 27.10.2016.

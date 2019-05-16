@@ -6,7 +6,7 @@
 
 
 
-    <kalkull.ruslanann.kalkulator24.screenfragments.SlidingTabLayout
+    <kalkull.ruslanann.kalkulator24.inner_fragmenrs.SlidingTabLayout
         android:id="@+id/sliding_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

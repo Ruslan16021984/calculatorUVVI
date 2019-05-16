@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.HashMap;
 import java.util.Map;
 
-import kalkull.ruslanann.kalkulator24.base.BaseFragment;
+import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
 import kalkull.ruslanann.kalkulator24.fragments.Dizel12.Dizel1;
 import kalkull.ruslanann.kalkulator24.fragments.Dizel12.Dizel2;
 import kalkull.ruslanann.kalkulator24.fragments.Dizel12.Dizel3;

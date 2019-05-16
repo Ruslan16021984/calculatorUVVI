@@ -1,11 +1,13 @@
 package kalkull.ruslanann.kalkulator24.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,13 +28,15 @@ import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import kalkull.ruslanann.kalkulator24.R;
-import kalkull.ruslanann.kalkulator24.base.BaseFragment;
+import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
 import kalkull.ruslanann.kalkulator24.database.ToDoDatabase;
-import kalkull.ruslanann.kalkulator24.sdActivity.SdActivity;
 
 import static kalkull.ruslanann.kalkulator24.R.id.spinner;
 
@@ -45,6 +49,7 @@ public class FragmentWN extends BaseFragment
     private static final int ACTIVITY_CREATE = 0;
     private static final int ACTIVITY_EDIT = 1;
     private static final int DELETE_ID = Menu.FIRST + 1;
+    private static final int WRITE_REQUEST_CODE = 43;
 
     private ToDoDatabase mDbHelper;
     private EditText etNam1;
@@ -159,6 +164,9 @@ public class FragmentWN extends BaseFragment
             case R.id.action_base:
 
                 saveState();
+                break;
+            case R.id.save_cd:
+                showSaveSdDialog();
                 break;
 
             default:
@@ -290,7 +298,8 @@ public class FragmentWN extends BaseFragment
                     Toast.makeText(getActivity(), "Данные ОБМОТКА И ПОЛОЖЕНИЕ не введены",
                             Toast.LENGTH_LONG).show();
                 }else {
-                    saveFile(editFileName.getText().toString());
+                    //saveFile(editFileName.getText().toString());
+                    createFile("text/plain", editFileName.getText().toString());
                     mCurFileName = editFileName.getText().toString();
                 }
             }
@@ -307,6 +316,7 @@ public class FragmentWN extends BaseFragment
         builder.show();
     }
 
+//Сохранение файла на диск если версия андроид ниже 5.0
     private void saveFile(String fileName) {
         try {
 
@@ -332,8 +342,56 @@ public class FragmentWN extends BaseFragment
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
         }
     }
+    //Сохрание файла на диск если версия андроид выше 5.0
+    //------------------------------------------------------------------
+    private void createFile(String mimeType, String fileName) {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
 
+        // Filter to only show results that can be "opened", such as
+        // a file (as opposed to a list of contacts or timezones).
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
 
+        // Create a file with the requested MIME type.
+        intent.setType(mimeType);
+        intent.putExtra(Intent.EXTRA_TITLE, fileName);
+        startActivityForResult(intent, WRITE_REQUEST_CODE);
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (requestCode == WRITE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+               // Log.i(TAG, "Uri: " + uri.toString());
+                alterDocument(uri);
+            }
+        }
+    }
+    private void alterDocument(Uri uri) {
+        try {
+            ParcelFileDescriptor pfd = getActivity().getContentResolver().
+                    openFileDescriptor(uri, "w");
+            FileOutputStream fileOutputStream =
+                    new FileOutputStream(pfd.getFileDescriptor());
+            massage = nomber +"\n"
+                    +" изм А= "
+                    + tvResult.getText().toString() + " | "
+                    +"прив 20 С= "
+                    + tvResult2.getText().toString() + " | "
+                    +"расх= "
+                    + tvResult5.getText().toString()+ "\n"
+                    + "****************************";
+            fileOutputStream.write((massage.getBytes()));
+            // Let the document provider know you're done by closing the stream.
+            fileOutputStream.close();
+            pfd.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //--------------------------------------------------------------
 }

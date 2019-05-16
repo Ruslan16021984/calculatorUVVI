@@ -1,4 +1,4 @@
-package kalkull.ruslanann.kalkulator24.screenfragments;
+package kalkull.ruslanann.kalkulator24.inner_fragmenrs;
 
 
 import android.os.Bundle;

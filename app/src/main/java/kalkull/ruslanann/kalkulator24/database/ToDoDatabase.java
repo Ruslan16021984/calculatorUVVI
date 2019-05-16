@@ -15,7 +15,8 @@ public class ToDoDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "new2.db";
     private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_TABLE = "todos";
-    private static final String TABLE_TRANS = "trans";
+    private static final String POWER_TRANSFORMER = "power_trans";
+    private static final String VOLTAGE_TRANSFORMER = "voltage_trans";
 
    // поля таблицы
     public static final String COLUMN_ID = "_id";
@@ -46,7 +47,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
             + COLUMN_DESCRIPTIOND + " text not null" + ");";
 
     private static final String DATABASE_CREATEI = "create table "
-            + TABLE_TRANS + "(" + TRANS_ID
+            + POWER_TRANSFORMER + "(" + TRANS_ID
             + " integer primary key autoincrement, " + COLUMN_SUMMARY + " text not null,"
             + COLUMN_AMPER + " text not null," + COLUMN_GRADUS + " text not null,"+
             COLUMN_PROCENT + " text not null," + COLUMN_AMPERN + " text not null," +
@@ -99,7 +100,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues initialValues = createContentTrans(summery, amper, gradus, procent, ampern,
                 voltn, gradusn, firstn);
-        long row = db.insert(TABLE_TRANS, null, initialValues);
+        long row = db.insert(POWER_TRANSFORMER, null, initialValues);
         db.close();
         return row;
     }
@@ -125,7 +126,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues updateValues = createContentTrans(summery, amper, gradus, procent, ampern, voltn,
                 gradusn, first);
-        return db.update(TABLE_TRANS, updateValues, TRANS_ID + "=" + rowId, null) > 0;
+        return db.update(POWER_TRANSFORMER, updateValues, TRANS_ID + "=" + rowId, null) > 0;
 
     }
 
@@ -140,7 +141,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
     }
     public void deleteTans(long rowId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_TRANS, TRANS_ID + "=" + rowId, null);
+        db.delete(POWER_TRANSFORMER, TRANS_ID + "=" + rowId, null);
         db.close();
     }
 
@@ -158,7 +159,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
     }
     public Cursor getAllTrans() {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.query(TABLE_TRANS, new String[] { TRANS_ID,
+        return db.query(POWER_TRANSFORMER, new String[] { TRANS_ID,
                         COLUMN_SUMMARY, COLUMN_AMPER, COLUMN_GRADUS, COLUMN_PROCENT, COLUMN_AMPERN,
                  COLUMN_VOLTN, COLUMN_GRADUSN, COLUMN_FIRST}, null,
                 null, null, null, null);
@@ -181,7 +182,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
     }
     public Cursor getTrans(long rowId){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor mCursor = db.query(true, TABLE_TRANS, new String[]{TRANS_ID,
+        Cursor mCursor = db.query(true, POWER_TRANSFORMER, new String[]{TRANS_ID,
                         COLUMN_SUMMARY, COLUMN_AMPER, COLUMN_GRADUS, COLUMN_PROCENT, COLUMN_AMPERN,
                 COLUMN_VOLTN, COLUMN_GRADUSN, COLUMN_FIRST},
                 COLUMN_ID + "=" + rowId, null,

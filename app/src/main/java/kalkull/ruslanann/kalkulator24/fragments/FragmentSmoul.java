@@ -2,7 +2,6 @@ package kalkull.ruslanann.kalkulator24.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,9 +26,8 @@ import java.io.FileWriter;
 import java.math.BigDecimal;
 
 import kalkull.ruslanann.kalkulator24.R;
-import kalkull.ruslanann.kalkulator24.base.BaseFragment;
+import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
 import kalkull.ruslanann.kalkulator24.database.ToDoDatabase;
-import kalkull.ruslanann.kalkulator24.sdActivity.SdActivity;
 
 /**
  * Created by CARD on 08.01.2016.

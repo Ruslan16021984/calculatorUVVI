@@ -14,12 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +27,8 @@ import java.io.FileWriter;
 import java.math.BigDecimal;
 
 import kalkull.ruslanann.kalkulator24.R;
-import kalkull.ruslanann.kalkulator24.base.BaseFragment;
+import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
 import kalkull.ruslanann.kalkulator24.database.ToDoDatabase;
-
-import static kalkull.ruslanann.kalkulator24.R.id.spinner;
 
 public class Dizel3 extends BaseFragment implements View.OnClickListener {
     private static final int ACTIVITY_CREATE = 0;
@@ -56,14 +52,14 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
 //    private String snomber ="";
     private RadioGroup mRadioOsGroup;
     private RadioButton mSelRadio;
-    String[] faza = {"AB", "BC", "AC"};
-    String[] polozenie = {"2-3", "3-4", "5-6", "4-5", "2-4"};
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
-    public static Dizel3 getInstance(Context context){
+
+    public static Dizel3 getInstance(Context context) {
         Dizel3 fragment = new Dizel3();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -74,7 +70,7 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_fragment_sn, container, false);
+        View view = inflater.inflate(R.layout.fragment_dizel_om, container, false);
         mDbHelper = new ToDoDatabase(getActivity());
 
         // находим элементы
@@ -87,11 +83,8 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
         tvResult = (TextView) view.findViewById(R.id.tvResultSave);
         tvResult2 = (TextView) view.findViewById(R.id.result2Save);
         tvResult5 = (TextView) view.findViewById(R.id.result5);
-//        showSd = (TextView) view.findViewById(R.id.showSd);
         tv2 = (TextView) view.findViewById(R.id.data2);
 
-        sPoloz = (Spinner) view.findViewById(R.id.spinner2);
-        sFaza = (Spinner) view.findViewById(spinner);
         mRadioOsGroup = (RadioGroup) view.findViewById(R.id.radio1);
         mRadioOsGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -109,27 +102,17 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
                 }
             }
         });
-        fpAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, faza);
-        spAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, polozenie);
-        sFaza.setAdapter(spAdapter);
-        sPoloz.setAdapter(fpAdapter);
-
 
 
 
         converter.setOnClickListener(this);
-
-
-        // Inflate the layout for this fragment
         return view;
     }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.save_basa, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -149,7 +132,6 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         final Animation animAlpha = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
         view.startAnimation(animAlpha);
-        initSppiner();
 
         //определяем нажатую кнопку и выполняем соответсвующую операцию
         //в опер пишем операцию, потом будем использовать в выводе
@@ -157,7 +139,7 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
             case R.id.button:
                 oper = "  ";
                 if (c.equals("0")) {
-                    Toast.makeText(getActivity(), "выберите флажок x1,x2 или x3 ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "выберите флажок x1, x2 или x3 ", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (c.equals("x1")) {
@@ -169,21 +151,11 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
                 } else if (c.equals("x3")) {
                     float x = 3;
                     makeCount(x);
-
-
                 }
-
                 break;
-
         }
     }
-    private void initSppiner() {
-        fnomber = sFaza.getSelectedItem().toString();
-        snomber = sPoloz.getSelectedItem().toString();
-        fpAdapter.notifyDataSetChanged();
-        spAdapter.notifyDataSetChanged();
-        nomber = snomber + " " +fnomber;
-    }
+
 
     private void makeCount(float x) {
         float num1 = 0;
@@ -214,7 +186,7 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
         //    result2 = Float.parseFloat(String.format(oper + "%.4f", result2));
         result2 = new BigDecimal(result2).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
         result3 = (result2 / num4) * 100 - 100;
-        tvResult5.setText(String.format(oper + "%.4f", result3) + " "+"%");
+        tvResult5.setText(String.format(oper + "%.4f", result3) + " " + "%");
         if (result3 != 0) {
             float i = result3;
             if (i > -1 && i < 1) tvResult5.setTextColor(Color.GREEN);
@@ -223,8 +195,6 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
     }
 
     private void saveState() {
-        initSppiner();
-
         String summary = (nomber.toString());
         String description = tvResult.getText().toString();
         String descriptiona = tvResult2.getText().toString();
@@ -244,7 +214,6 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
 
 
     private void showSaveSdDialog() {
-        initSppiner();
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View root = inflater.inflate(R.layout.save_dialog, null);
 
@@ -264,7 +233,7 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
                 if (TextUtils.isEmpty(nomber.toString())) {
                     Toast.makeText(getActivity(), "Данные ОБМОТКА И ПОЛОЖЕНИЕ не введены",
                             Toast.LENGTH_LONG).show();
-                }else {
+                } else {
                     saveFile(editFileName.getText().toString());
                     mCurFileName = editFileName.getText().toString();
                 }
@@ -289,14 +258,14 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
 
             BufferedWriter bW;
 
-            bW = new BufferedWriter(new FileWriter(file,true));
-            massage = nomber.toString()+"\n"
-                    +" изм А= "
+            bW = new BufferedWriter(new FileWriter(file, true));
+            massage = nomber + "\n"
+                    + " изм А= "
                     + tvResult.getText().toString() + " | "
-                    +"прив 20 С= "
+                    + "прив 20 С= "
                     + tvResult2.getText().toString() + " | "
-                    +"расх= "
-                    + tvResult5.getText().toString()+ "\n"
+                    + "расх= "
+                    + tvResult5.getText().toString() + "\n"
                     + "****************************";
             bW.write(massage);
             bW.newLine();

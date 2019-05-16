@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import kalkull.ruslanann.kalkulator24.R;
-import kalkull.ruslanann.kalkulator24.base.BaseFragment;
+import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.

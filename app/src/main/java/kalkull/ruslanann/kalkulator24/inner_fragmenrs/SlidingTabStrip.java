@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
-package kalkull.ruslanann.kalkulator24.screenfragments;
+package kalkull.ruslanann.kalkulator24.inner_fragmenrs;
  
 import android.content.Context;
 import android.graphics.Canvas;

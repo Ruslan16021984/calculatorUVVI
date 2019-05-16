@@ -1,4 +1,4 @@
-package kalkull.ruslanann.kalkulator24.screenfragments;
+package kalkull.ruslanann.kalkulator24.inner_fragmenrs;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,25 +8,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import kalkull.ruslanann.kalkulator24.R;
-import kalkull.ruslanann.kalkulator24.adapter.Adapter;
+import kalkull.ruslanann.kalkulator24.adapter.AdapterTwo;
 
 
 /**
  * Created by CARD on 07.01.2016.
  */
-public class ScreenOne extends Fragment {
+public class ScreenTwo extends Fragment {
     private SlidingTabLayout mSlidingTabLayout;
     private ViewPager mViewPager;
 
-    public ScreenOne() {
+
+
+    public ScreenTwo() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.screen_one, container, false);
-
+        View rootView = inflater.inflate(R.layout.screen_one, container,
+                false);
 
         return rootView;
     }
@@ -34,7 +36,7 @@ public class ScreenOne extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        Adapter adapter = new Adapter(getActivity(),getChildFragmentManager() );
+        AdapterTwo adapter = new AdapterTwo(getActivity(),getChildFragmentManager() );
         mViewPager.setAdapter(adapter);
 
         // Give the SlidingTabLayout the ViewPager, this must be
@@ -42,12 +44,5 @@ public class ScreenOne extends Fragment {
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setViewPager(mViewPager);
     }
-
-    // Adapter
-
-
-
-
-
 
 }

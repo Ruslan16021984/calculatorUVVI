@@ -3,8 +3,13 @@
     xmlns:sabd="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_base"
-        android:icon="@drawable/ic_add_box_white_24dp"
+        android:icon="@drawable/ic_action_name"
         android:orderInCategory="100"
         android:title="Соханить в Базу"
+        sabd:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/save_cd"
+        android:icon="@drawable/ic_content_save"
+        android:title="Сохранить на карту"
         sabd:showAsAction="ifRoom"/>
 </menu>
