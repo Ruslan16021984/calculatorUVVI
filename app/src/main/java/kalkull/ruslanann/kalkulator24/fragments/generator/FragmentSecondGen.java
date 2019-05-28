@@ -28,7 +28,7 @@ import kalkull.ruslanann.kalkulator24.database.ToDoDatabase;
 /**
  * Created by CARD on 12.01.2016.
  */
-public class FragmentG1 extends BaseFragment implements View.OnClickListener{
+public class FragmentSecondGen extends BaseFragment implements View.OnClickListener{
 
 
 
@@ -61,8 +61,8 @@ public class FragmentG1 extends BaseFragment implements View.OnClickListener{
     private static final float SECH_X3 = 23400;
 
 
-    public static FragmentG1 getInstance(Context context) {
-        FragmentG1 fragment = new FragmentG1();
+    public static FragmentSecondGen getInstance(Context context) {
+        FragmentSecondGen fragment = new FragmentSecondGen();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         fragment.setTitle(context.getString(R.string.fragmentG1));

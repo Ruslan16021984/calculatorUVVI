@@ -47,11 +47,9 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
     private TextView tvResult2;
     private TextView tvResult5;
     private TextView tv2;
-    //    private String nomber ="";
-//    private String fnomber ="";
-//    private String snomber ="";
+
     private RadioGroup mRadioOsGroup;
-    private RadioButton mSelRadio;
+    private RadioGroup mRadioPredelGroup;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,23 +84,30 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
         tv2 = (TextView) view.findViewById(R.id.data2);
 
         mRadioOsGroup = (RadioGroup) view.findViewById(R.id.radio1);
-        mRadioOsGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.x1:
-                        c = "x1";
-                        break;
-                    case R.id.x2:
-                        c = "x2";
-                        break;
-                    case R.id.x3:
-                        c = "x3";
-                        break;
-                }
+        mRadioOsGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.x1:
+                    perlaseMnozitel = "x1";
+                    break;
+                case R.id.x2:
+                    perlaseMnozitel = "x2";
+                    break;
+                case R.id.x3:
+                    perlaseMnozitel = "x3";
+                    break;
             }
         });
-
+        mRadioPredelGroup = (RadioGroup) view.findViewById(R.id.radioGroup1);
+        mRadioPredelGroup.setOnCheckedChangeListener((radioGroup, checkedId) -> {
+            switch (checkedId){
+                case R.id.x11:
+                    perlasePredel = (float) 7.5;
+                    break;
+                case R.id.x22:
+                    perlasePredel = (float) 0.75;
+                    break;
+            }
+        });
 
 
         converter.setOnClickListener(this);
@@ -138,26 +143,26 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.button:
                 oper = "  ";
-                if (c.equals("0")) {
+                if (perlaseMnozitel.equals("0")|| perlasePredel==0) {
                     Toast.makeText(getActivity(), "выберите флажок x1, x2 или x3 ", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (c.equals("x1")) {
+                if (perlaseMnozitel.equals("x1")) {
                     float x = 1;
-                    makeCount(x);
-                } else if (c.equals("x2")) {
+                    makeCount(x, perlasePredel);
+                } else if (perlaseMnozitel.equals("x2")) {
                     float x = 2;
-                    makeCount(x);
-                } else if (c.equals("x3")) {
+                    makeCount(x, perlasePredel);
+                } else if (perlaseMnozitel.equals("x3")) {
                     float x = 3;
-                    makeCount(x);
+                    makeCount(x, perlasePredel);
                 }
                 break;
         }
     }
 
 
-    private void makeCount(float x) {
+    private void makeCount(float x, float y) {
         float num1 = 0;
         float num2 = 0;
         float num3 = 0;
@@ -177,13 +182,11 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
         num2 = Float.parseFloat(etEtNam2.getText().toString());
         num3 = Float.parseFloat(etNam3.getText().toString());
         num4 = Float.parseFloat(etNam4.getText().toString());
-        result = (float) (num2 * 7.5 * x / 150 / num1);
+        result = (float) (num2 * y * x / 150 / num1);
         tvResult.setText(String.format(oper + "%.4f", result) + " " + "Ом");
-        //result =Float.parseFloat(String.format("%.4f", result));
         result = new BigDecimal(result).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
         result2 = result * 250 / (235 + num3);
         tvResult2.setText(String.format(oper + "%.4f", result2) + " " + "Ом");
-        //    result2 = Float.parseFloat(String.format(oper + "%.4f", result2));
         result2 = new BigDecimal(result2).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
         result3 = (result2 / num4) * 100 - 100;
         tvResult5.setText(String.format(oper + "%.4f", result3) + " " + "%");
@@ -195,7 +198,7 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
     }
 
     private void saveState() {
-        String summary = (nomber.toString());
+        String summary = (nomber);
         String description = tvResult.getText().toString();
         String descriptiona = tvResult2.getText().toString();
         String descriptionb = tvResult5.getText().toString();
@@ -225,28 +228,20 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
         builder.setView(root);
         builder.setTitle("Сохранение файла");
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                if (TextUtils.isEmpty(nomber.toString())) {
-                    Toast.makeText(getActivity(), "Данные ОБМОТКА И ПОЛОЖЕНИЕ не введены",
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    saveFile(editFileName.getText().toString());
-                    mCurFileName = editFileName.getText().toString();
-                }
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            // TODO Auto-generated method stub
+            if (TextUtils.isEmpty(nomber.toString())) {
+                Toast.makeText(getActivity(), "Данные ОБМОТКА И ПОЛОЖЕНИЕ не введены",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                saveFile(editFileName.getText().toString());
+                mCurFileName = editFileName.getText().toString();
             }
         });
 
-        builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                dialog.cancel();
-            }
+        builder.setNegativeButton("Отмена", (dialog, which) -> {
+            // TODO Auto-generated method stub
+            dialog.cancel();
         });
         builder.show();
     }

@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
-import kalkull.ruslanann.kalkulator24.fragments.generator.FragmentG1;
-import kalkull.ruslanann.kalkulator24.fragments.generator.FragmentG2;
+import kalkull.ruslanann.kalkulator24.fragments.generator.FragmentSecondGen;
+import kalkull.ruslanann.kalkulator24.fragments.generator.FragmentBaseGen;
 
 /**
  * Created by CARD on 12.01.2016.
@@ -40,7 +40,7 @@ public class AdapterThree extends FragmentPagerAdapter {
 
     private void initTabMap() {
         tabs = new HashMap<>();
-        tabs.put(0, FragmentG2.getInstance(context));
-        tabs.put(1, FragmentG1.getInstance(context));
+        tabs.put(0, FragmentBaseGen.getInstance(context));
+        tabs.put(1, FragmentSecondGen.getInstance(context));
     }
 }

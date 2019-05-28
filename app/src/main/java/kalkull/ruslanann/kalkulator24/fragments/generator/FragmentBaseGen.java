@@ -20,11 +20,12 @@ import android.widget.TextView;
 
 import kalkull.ruslanann.kalkulator24.R;
 import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
+import kalkull.ruslanann.kalkulator24.model.GenModel;
 
 /**
  * Created by CARD on 12.01.2016.
  */
-public class FragmentG2 extends BaseFragment implements View.OnClickListener {
+public class FragmentBaseGen extends BaseFragment implements View.OnClickListener {
 
 
     private SQLiteDatabase mDB;
@@ -49,8 +50,8 @@ public class FragmentG2 extends BaseFragment implements View.OnClickListener {
     private TextView tvResult3;
     private String oper = "";
 
-    public static FragmentG2 getInstance(Context context) {
-        FragmentG2 fragment = new FragmentG2();
+    public static FragmentBaseGen getInstance(Context context) {
+        FragmentBaseGen fragment = new FragmentBaseGen();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         fragment.setTitle(context.getString(R.string.fragmentG2));
@@ -90,9 +91,6 @@ public class FragmentG2 extends BaseFragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-
-
 
 
     }
@@ -179,10 +177,14 @@ public class FragmentG2 extends BaseFragment implements View.OnClickListener {
 
         }
     }
+    private void genData(){
+        // генерируем некоторые данные
+        String curDate = new GenModel().getDescriptionA();
+        String curDate2 = new GenModel().getDescriptionB();
+        String curDate3 = new GenModel().getDescriptionC();
+        // Посылаем данные Activity
 
-
-
-
+    }
 
 
 }

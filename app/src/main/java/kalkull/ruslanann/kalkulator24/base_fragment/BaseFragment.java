@@ -17,6 +17,8 @@ import kalkull.ruslanann.kalkulator24.database.ToDoDatabase;
  */
 
 public class BaseFragment extends Fragment {
+
+
     private String title;
     protected ToDoDatabase mDbHelper;
     protected Context context;
@@ -26,7 +28,8 @@ public class BaseFragment extends Fragment {
     protected int mPos = 0;
     protected String oper = "";
     protected String mCurFileName;
-    protected String c = "0";
+    protected String perlaseMnozitel = "0";
+    protected float perlasePredel = 0;
     protected String massage;
     protected Spinner sPoloz;
     protected Spinner sFaza;
@@ -58,4 +61,6 @@ public class BaseFragment extends Fragment {
     public void setContext(Context context) {
         this.context = context;
     }
+
+
 }

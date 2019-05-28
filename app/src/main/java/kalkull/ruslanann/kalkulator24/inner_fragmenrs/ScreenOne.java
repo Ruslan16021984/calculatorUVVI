@@ -32,13 +32,10 @@ public class ScreenOne extends Fragment {
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        // Get the ViewPager and set it's PagerAdapter so that it can display items
-        mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
+         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         Adapter adapter = new Adapter(getActivity(),getChildFragmentManager() );
         mViewPager.setAdapter(adapter);
 
-        // Give the SlidingTabLayout the ViewPager, this must be
-        // done AFTER the ViewPager has had it's PagerAdapter set.
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setViewPager(mViewPager);
     }

@@ -59,15 +59,14 @@ public class MainActivity extends BaseDrawerActivity {
 
     @Override
     public void onBackPressed() {
-        if (back_pressed + 2000 > System.currentTimeMillis()){
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
             super.onBackPressed();
             finish();
-        }
-
-
-        else
+        } else
             Toast.makeText(getBaseContext(), "хотите выйти нажмите ещё раз!",
                     Toast.LENGTH_SHORT).show();
         back_pressed = System.currentTimeMillis();
     }
+
+
 }

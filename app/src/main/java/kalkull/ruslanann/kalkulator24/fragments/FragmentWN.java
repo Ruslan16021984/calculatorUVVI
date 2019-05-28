@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
@@ -45,7 +46,7 @@ import static kalkull.ruslanann.kalkulator24.R.id.spinner;
  * Created by CARD on 08.01.2016.
  */
 public class FragmentWN extends BaseFragment
-        implements View.OnClickListener {
+        implements View.OnClickListener{
     private static final int ACTIVITY_CREATE = 0;
     private static final int ACTIVITY_EDIT = 1;
     private static final int DELETE_ID = Menu.FIRST + 1;
@@ -125,13 +126,13 @@ public class FragmentWN extends BaseFragment
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.x1:
-                        c = "x1";
+                        perlaseMnozitel = "x1";
                         break;
                     case R.id.x2:
-                        c = "x2";
+                        perlaseMnozitel = "x2";
                         break;
                     case R.id.x3:
-                        c = "x3";
+                        perlaseMnozitel = "x3";
                         break;
                 }
             }
@@ -162,11 +163,12 @@ public class FragmentWN extends BaseFragment
         switch (item.getItemId()) {
 
             case R.id.action_base:
-
+                showDialog();
                 saveState();
                 break;
             case R.id.save_cd:
                 showSaveSdDialog();
+                //showDialog();
                 break;
 
             default:
@@ -186,17 +188,17 @@ public class FragmentWN extends BaseFragment
         switch (v.getId()) {
             case R.id.button:
                 oper = "  ";
-                if (c.equals("0")) {
+                if (perlaseMnozitel.equals("0")) {
                     Toast.makeText(getActivity(), "выберите флажок x1,x2 или x3 ", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (c.equals("x1")) {
+                if (perlaseMnozitel.equals("x1")) {
                     float x = 1;
                     makeCount(x);
-                } else if (c.equals("x2")) {
+                } else if (perlaseMnozitel.equals("x2")) {
                     float x = 2;
                     makeCount(x);
-                } else if (c.equals("x3")) {
+                } else if (perlaseMnozitel.equals("x3")) {
                     float x = 3;
                     makeCount(x);
 
@@ -240,11 +242,9 @@ public class FragmentWN extends BaseFragment
         num4 = Float.parseFloat(etNam4.getText().toString());
         result = (float) (num2 * 7.5 * x / 150 / num1);
         tvResult.setText(String.format(oper + "%.4f", result) + " " + "Ом");
-        //result =Float.parseFloat(String.format("%.4f", result));
         result = new BigDecimal(result).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
         result2 = result * 255 / (235 + num3);
         tvResult2.setText(String.format(oper + "%.4f", result2) + " " + "Ом");
-    //    result2 = Float.parseFloat(String.format(oper + "%.4f", result2));
         result2 = new BigDecimal(result2).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
         result3 = (result2 / num4) * 100 - 100;
         tvResult5.setText(String.format(oper + "%.4f", result3) + " "+"%");
@@ -258,7 +258,7 @@ public class FragmentWN extends BaseFragment
     private void saveState() {
         initSppiner();
 
-        String summary = (nomber.toString());
+        String summary = (nomber);
         String description = tvResult.getText().toString();
         String descriptiona = tvResult2.getText().toString();
         String descriptionb = tvResult5.getText().toString();
@@ -289,34 +289,26 @@ public class FragmentWN extends BaseFragment
         builder.setView(root);
         builder.setTitle("Сохранение файла");
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                if (TextUtils.isEmpty(nomber.toString())) {
-                    Toast.makeText(getActivity(), "Данные ОБМОТКА И ПОЛОЖЕНИЕ не введены",
-                            Toast.LENGTH_LONG).show();
-                }else {
-                    //saveFile(editFileName.getText().toString());
-                    createFile("text/plain", editFileName.getText().toString());
-                    mCurFileName = editFileName.getText().toString();
-                }
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            // TODO Auto-generated method stub
+            if (TextUtils.isEmpty(nomber)) {
+                Toast.makeText(getActivity(), "Данные ОБМОТКА И ПОЛОЖЕНИЕ не введены",
+                        Toast.LENGTH_LONG).show();
+            }else {
+                createFile("text/plain", editFileName.getText().toString());
+                mCurFileName = editFileName.getText().toString();
             }
         });
 
-        builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                dialog.cancel();
-            }
+        builder.setNegativeButton("Отмена", (dialog, which) -> {
+            // TODO Auto-generated method stub
+            dialog.cancel();
         });
         builder.show();
     }
 
-//Сохранение файла на диск если версия андроид ниже 5.0
+//----------------------------------------------------------
+// Сохранение файла на диск если версия андроид ниже 5.0
     private void saveFile(String fileName) {
         try {
 
@@ -325,7 +317,7 @@ public class FragmentWN extends BaseFragment
             BufferedWriter bW;
 
             bW = new BufferedWriter(new FileWriter(file,true));
-            massage = nomber.toString()+"\n"
+            massage = nomber +"\n"
                     +" изм А= "
                     + tvResult.getText().toString() + " | "
                     +"прив 20 С= "
@@ -345,16 +337,16 @@ public class FragmentWN extends BaseFragment
     //Сохрание файла на диск если версия андроид выше 5.0
     //------------------------------------------------------------------
     private void createFile(String mimeType, String fileName) {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP){
 
-        // Filter to only show results that can be "opened", such as
-        // a file (as opposed to a list of contacts or timezones).
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        // Create a file with the requested MIME type.
-        intent.setType(mimeType);
-        intent.putExtra(Intent.EXTRA_TITLE, fileName);
-        startActivityForResult(intent, WRITE_REQUEST_CODE);
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType(mimeType);
+            intent.putExtra(Intent.EXTRA_TITLE, fileName);
+            startActivityForResult(intent, WRITE_REQUEST_CODE);
+        }else {
+            saveFile(fileName);
+        }
     }
 
     @Override
@@ -394,4 +386,7 @@ public class FragmentWN extends BaseFragment
         }
     }
     //--------------------------------------------------------------
+    private void showDialog(){
+    }
+
 }
