@@ -1,10 +1,8 @@
 package kalkull.ruslanann.kalkulator24.fragments.Dizel12;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,10 +14,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -183,13 +182,14 @@ public class Dizel3 extends BaseFragment implements View.OnClickListener {
         num3 = Float.parseFloat(etNam3.getText().toString());
         num4 = Float.parseFloat(etNam4.getText().toString());
         result = (float) (num2 * y * x / 150 / num1);
-        tvResult.setText(String.format(oper + "%.4f", result) + " " + "Ом");
         result = new BigDecimal(result).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
+        tvResult.setText(result + " " + "Ом");
         result2 = result * 250 / (235 + num3);
-        tvResult2.setText(String.format(oper + "%.4f", result2) + " " + "Ом");
         result2 = new BigDecimal(result2).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
+        tvResult2.setText(result2 + " " + "Ом");
         result3 = (result2 / num4) * 100 - 100;
-        tvResult5.setText(String.format(oper + "%.4f", result3) + " " + "%");
+        result3 = new BigDecimal(result3).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+        tvResult5.setText(result3 + " " + "%");
         if (result3 != 0) {
             float i = result3;
             if (i > -1 && i < 1) tvResult5.setTextColor(Color.GREEN);

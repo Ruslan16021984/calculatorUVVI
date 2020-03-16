@@ -1,14 +1,10 @@
 package kalkull.ruslanann.kalkulator24.fragments;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,23 +17,25 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.math.BigDecimal;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import kalkull.ruslanann.kalkulator24.R;
 import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
 import kalkull.ruslanann.kalkulator24.database.ToDoDatabase;
+import kalkull.ruslanann.kalkulator24.mathCount.MathCount;
 
 import static kalkull.ruslanann.kalkulator24.R.id.spinner;
 
@@ -51,24 +49,33 @@ public class FragmentWN extends BaseFragment
     private static final int ACTIVITY_EDIT = 1;
     private static final int DELETE_ID = Menu.FIRST + 1;
     private static final int WRITE_REQUEST_CODE = 43;
+//    private static final String DIRECTORY_DOCS = "/documents";
+
+    private String mCurFileName = ""; // имя текущего файла для работы
+    private String mPath; // путь к файлу
+    private int mPos = 0; // позиция при выборе имени файла в диалоговом окне
 
     private ToDoDatabase mDbHelper;
-    private EditText etNam1;
-    private EditText etEtNam2;
-    private EditText etNam3;
-    private EditText etNam4;
+    @BindView(R.id.etNam1)
+    EditText etNam1;
+    @BindView(R.id.etNam3)
+    EditText etNam3;
+    @BindView(R.id.etNam2)
+    EditText etEtNam2;
+    @BindView(R.id.etNam4)
+    EditText etNam4;
+    @BindView(R.id.button)
+    Button converter;
+    @BindView(R.id.tvResultSave)
+    TextView tvResult;
+    @BindView(R.id.tvResultSave2)
+    TextView tvResult2;
+    @BindView(R.id.result5)
+    TextView tvResult5;
+    @BindView(R.id.data2)
+    TextView tv2;
 
-    private Button converter;
-
-    private TextView tvResult;
-    private TextView tvResult2;
-    private TextView tvResult5;
-    private TextView tv2;
-//    private String nomber ="";
-//    private String fnomber ="";
-//    private String snomber ="";
     private RadioGroup mRadioOsGroup;
-    private RadioButton mSelRadio;
     String[] faza = {"AB", "BC", "AC"};
     String[] polozenie = {"2-3", "3-4", "5-6", "4-5", "2-4"};
 
@@ -95,46 +102,32 @@ public class FragmentWN extends BaseFragment
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fragment_sn, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        mPath = Environment.getExternalStorageDirectory().toString() + DIRECTORY_DOCS;
+        File folder = new File(mPath);
+
+// Если папки не существует, то создадим её
+        if(!folder.exists()) {
+            folder.mkdir();
+        }
         mDbHelper = new ToDoDatabase(getActivity());
-
-        // находим элементы
-        etNam1 = (EditText) view.findViewById(R.id.etNam1);
-        etEtNam2 = (EditText) view.findViewById(R.id.etNam2);
-        etNam3 = (EditText) view.findViewById(R.id.etNam3);
-        etNam4 = (EditText) view.findViewById(R.id.etNam4);
-        converter = (Button) view.findViewById(R.id.button);
-
-        tvResult = (TextView) view.findViewById(R.id.tvResultSave);
-        tvResult2 = (TextView) view.findViewById(R.id.result2Save);
-        tvResult5 = (TextView) view.findViewById(R.id.result5);
 //        showSd = (TextView) view.findViewById(R.id.showSd);
-        tv2 = (TextView) view.findViewById(R.id.data2);
 
         sPoloz = (Spinner) view.findViewById(R.id.spinner2);
         sFaza = (Spinner) view.findViewById(spinner);
 
-
-//        File folder = new File(String.valueOf(mPath));
-//
-//// Если папки не существует, то создадим её
-//        if (!folder.exists()) {
-//            folder.mkdir();
-//        }
         mRadioOsGroup = (RadioGroup) view.findViewById(R.id.radio1);
-        mRadioOsGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.x1:
-                        perlaseMnozitel = "x1";
-                        break;
-                    case R.id.x2:
-                        perlaseMnozitel = "x2";
-                        break;
-                    case R.id.x3:
-                        perlaseMnozitel = "x3";
-                        break;
-                }
+        mRadioOsGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.x1:
+                    perlaseMnozitel = "x1";
+                    break;
+                case R.id.x2:
+                    perlaseMnozitel = "x2";
+                    break;
+                case R.id.x3:
+                    perlaseMnozitel = "x3";
+                    break;
             }
         });
         fpAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, faza);
@@ -142,13 +135,8 @@ public class FragmentWN extends BaseFragment
         sFaza.setAdapter(spAdapter);
         sPoloz.setAdapter(fpAdapter);
 
-
-
-
         converter.setOnClickListener(this);
 
-
-        // Inflate the layout for this fragment
         return view;
     }
 
@@ -167,8 +155,7 @@ public class FragmentWN extends BaseFragment
                 saveState();
                 break;
             case R.id.save_cd:
-                showSaveSdDialog();
-                //showDialog();
+                showSaveFileDialog();
                 break;
 
             default:
@@ -182,9 +169,6 @@ public class FragmentWN extends BaseFragment
         final Animation animAlpha = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
         v.startAnimation(animAlpha);
         initSppiner();
-
-        //определяем нажатую кнопку и выполняем соответсвующую операцию
-        //в опер пишем операцию, потом будем использовать в выводе
         switch (v.getId()) {
             case R.id.button:
                 oper = "  ";
@@ -201,7 +185,6 @@ public class FragmentWN extends BaseFragment
                 } else if (perlaseMnozitel.equals("x3")) {
                     float x = 3;
                     makeCount(x);
-
 
                 }
 
@@ -221,10 +204,7 @@ public class FragmentWN extends BaseFragment
     }
 
     private void makeCount(float x) {
-        float num1 = 0;
-        float num2 = 0;
-        float num3 = 0;
-        float num4 = 0;
+
         float result = 0;
         float result2 = 0;
         float result3 = 0;
@@ -235,19 +215,15 @@ public class FragmentWN extends BaseFragment
             return;
 
         }
-        //читаем эдиттекст и заполняем переменные числами
-        num1 = Float.parseFloat(etNam1.getText().toString());
-        num2 = Float.parseFloat(etEtNam2.getText().toString());
-        num3 = Float.parseFloat(etNam3.getText().toString());
-        num4 = Float.parseFloat(etNam4.getText().toString());
-        result = (float) (num2 * 7.5 * x / 150 / num1);
-        tvResult.setText(String.format(oper + "%.4f", result) + " " + "Ом");
-        result = new BigDecimal(result).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
-        result2 = result * 255 / (235 + num3);
-        tvResult2.setText(String.format(oper + "%.4f", result2) + " " + "Ом");
-        result2 = new BigDecimal(result2).setScale(4, BigDecimal.ROUND_HALF_UP).floatValue();
-        result3 = (result2 / num4) * 100 - 100;
-        tvResult5.setText(String.format(oper + "%.4f", result3) + " "+"%");
+        result = (float) MathCount.makeCount10Amper(etNam1,etEtNam2, x);
+        tvResult.setText(result + " " + "Ом");
+
+        result2 = MathCount.ROUND_HALF_UP(etNam3);
+        tvResult2.setText(result2 + " " + "Ом");
+
+        result3 = MathCount.makeCount20degrees(etNam4,result2);
+        tvResult5.setText(result3 + " "+"%");
+
         if (result3 != 0) {
             float i = result3;
             if (i > -1 && i < 1) tvResult5.setTextColor(Color.GREEN);
@@ -274,41 +250,6 @@ public class FragmentWN extends BaseFragment
                 amper, volt, gradus, first);
         Toast.makeText(getActivity(), "save", Toast.LENGTH_SHORT).show();
     }
-
-
-    private void showSaveSdDialog() {
-        initSppiner();
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View root = inflater.inflate(R.layout.save_dialog, null);
-
-        final EditText editFileName = (EditText) root.findViewById(R.id.editFileName);
-
-        editFileName.setText(mCurFileName);
-
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-        builder.setView(root);
-        builder.setTitle("Сохранение файла");
-
-        builder.setPositiveButton("OK", (dialog, which) -> {
-            // TODO Auto-generated method stub
-            if (TextUtils.isEmpty(nomber)) {
-                Toast.makeText(getActivity(), "Данные ОБМОТКА И ПОЛОЖЕНИЕ не введены",
-                        Toast.LENGTH_LONG).show();
-            }else {
-                createFile("text/plain", editFileName.getText().toString());
-                mCurFileName = editFileName.getText().toString();
-            }
-        });
-
-        builder.setNegativeButton("Отмена", (dialog, which) -> {
-            // TODO Auto-generated method stub
-            dialog.cancel();
-        });
-        builder.show();
-    }
-
-//----------------------------------------------------------
-// Сохранение файла на диск если версия андроид ниже 5.0
     private void saveFile(String fileName) {
         try {
 
@@ -334,59 +275,103 @@ public class FragmentWN extends BaseFragment
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
         }
     }
-    //Сохрание файла на диск если версия андроид выше 5.0
-    //------------------------------------------------------------------
-    private void createFile(String mimeType, String fileName) {
-        if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP){
-
-            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType(mimeType);
-            intent.putExtra(Intent.EXTRA_TITLE, fileName);
-            startActivityForResult(intent, WRITE_REQUEST_CODE);
-        }else {
-            saveFile(fileName);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if (requestCode == WRITE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-
-            Uri uri = null;
-            if (resultData != null) {
-                uri = resultData.getData();
-               // Log.i(TAG, "Uri: " + uri.toString());
-                alterDocument(uri);
-            }
-        }
-    }
-    private void alterDocument(Uri uri) {
-        try {
-            ParcelFileDescriptor pfd = getActivity().getContentResolver().
-                    openFileDescriptor(uri, "w");
-            FileOutputStream fileOutputStream =
-                    new FileOutputStream(pfd.getFileDescriptor());
-            massage = nomber +"\n"
-                    +" изм А= "
-                    + tvResult.getText().toString() + " | "
-                    +"прив 20 С= "
-                    + tvResult2.getText().toString() + " | "
-                    +"расх= "
-                    + tvResult5.getText().toString()+ "\n"
-                    + "****************************";
-            fileOutputStream.write((massage.getBytes()));
-            // Let the document provider know you're done by closing the stream.
-            fileOutputStream.close();
-            pfd.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     //--------------------------------------------------------------
     private void showDialog(){
     }
+    private void showOpenFileDialog(){
+        try{
+            final String[] files = getFiles(mPath);
+
+            // Если в папке есть файлы, то создаем диалоговое окно
+            if(files.length > 0){
+                mPos = 0;
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Открыть файл");
+
+                // Отображаем список файлов
+                builder.setSingleChoiceItems(files, 0, (dialog, which) -> {
+                    mPos = which;
+                });
+
+                builder.setPositiveButton("OK", (dialog, which) -> {
+                    mCurFileName = files[mPos];
+                    openFile(mCurFileName);
+                });
+
+                builder.setNegativeButton("Отмена", (dialog, which) -> {
+                    dialog.cancel();
+                });
+                builder.setCancelable(false);
+                builder.show();
+            }
+        }
+        catch(Exception e){
+            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+    private String[] getFiles(String dirPath) {
+        ArrayList<String> items = new ArrayList<String>();
+        try {
+            File file = new File(dirPath);
+            File[] files = file.listFiles();
+
+            for (File afile : files) {
+                if (!afile.isDirectory()) {
+                    items.add(afile.getName());
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+        }
+        return items.toArray(new String[items.size()]);
+    }
+    private void openFile(String fileName) {
+        try {
+            File file = new File(mPath, fileName);
+            FileInputStream fis = new FileInputStream(file);
+
+            if (fis != null) {
+                InputStreamReader inreader = new InputStreamReader(fis);
+                BufferedReader reader = new BufferedReader(inreader);
+                String str;
+                StringBuffer buffer = new StringBuffer();
+
+                while ((str = reader.readLine()) != null) {
+                    buffer.append(str + "\n");
+                }
+
+                fis.close();
+//                editor.setText(buffer.toString());
+
+                mCurFileName = fileName;
+
+                // Выводим имя файла в заголовке
+                setTitle(mCurFileName + ": Блокнот");
+            }
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+    private void showSaveFileDialog(){
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View root = inflater.inflate(R.layout.save_dialog, null);
+
+        final EditText editFileName = (EditText)root.findViewById(R.id.editFileName);
+        editFileName.setText(mCurFileName);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(root);
+        builder.setTitle("Сохранение файла");
+
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            saveFile(editFileName.getText().toString());
+        });
+
+        builder.setNegativeButton("Отмена", (dialog, which) -> {
+            dialog.cancel();
+        });
+        builder.show();
+    }
+
 
 }

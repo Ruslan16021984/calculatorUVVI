@@ -2,25 +2,27 @@ package kalkull.ruslanann.kalkulator24.base_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
+import com.google.android.material.navigation.NavigationView;
+
 import kalkull.ruslanann.kalkulator24.R;
-import kalkull.ruslanann.kalkulator24.database.DataSqlTrans;
+import kalkull.ruslanann.kalkulator24.adapter.inner_adapter.ScreenDV;
+import kalkull.ruslanann.kalkulator24.adapter.inner_adapter.ScreenDizel;
+import kalkull.ruslanann.kalkulator24.adapter.inner_adapter.ScreenOne;
+import kalkull.ruslanann.kalkulator24.adapter.inner_adapter.ScreenThree;
+import kalkull.ruslanann.kalkulator24.adapter.inner_adapter.ScreenTwo;
 import kalkull.ruslanann.kalkulator24.database.DataSqlGen;
-import kalkull.ruslanann.kalkulator24.inner_fragmenrs.ScreenDV;
-import kalkull.ruslanann.kalkulator24.inner_fragmenrs.ScreenDizel;
-import kalkull.ruslanann.kalkulator24.inner_fragmenrs.ScreenOne;
-import kalkull.ruslanann.kalkulator24.inner_fragmenrs.ScreenThree;
-import kalkull.ruslanann.kalkulator24.inner_fragmenrs.ScreenTwo;
+import kalkull.ruslanann.kalkulator24.database.DataSqlTrans;
 
 /**
  * Created by user on 27.10.2016.
@@ -28,6 +30,7 @@ import kalkull.ruslanann.kalkulator24.inner_fragmenrs.ScreenTwo;
 
 public abstract class BaseDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     protected static final String SCREEN_SHOTS_LOCATION = "/screenshots";
+    protected static final int REQUEST_CODE_PERMISSION_READ_CONTACTS = 123;
 
     protected String mPath;
     protected TextView tv2;;

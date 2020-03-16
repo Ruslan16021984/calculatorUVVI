@@ -3,7 +3,6 @@ package kalkull.ruslanann.kalkulator24.fragments.dvigatel;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import kalkull.ruslanann.kalkulator24.R;
 import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
 
 /**
- * A simple {@link Fragment} subclass.
  */
 public class Nelineynost extends BaseFragment implements View.OnClickListener{
 

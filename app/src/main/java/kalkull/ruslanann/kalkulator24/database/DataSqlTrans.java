@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +14,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import kalkull.ruslanann.kalkulator24.R;
 
@@ -95,16 +96,13 @@ public class DataSqlTrans extends AppCompatActivity implements LoaderCallbacks<C
                 R.layout.list_row, null, from, to, 0);
         listView.setAdapter(adapter);
         getLoaderManager().initLoader(0, null, this);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(DataSqlTrans.this, EditSqlTrans.class);
-                intent.putExtra(ToDoDatabase.TRANS_ID, id);
-                // активити вернет результат если будет вызвано с помощью этого метода
-                startActivityForResult(intent, ACTIVITY_EDIT);
-                overridePendingTransition(R.anim.open_next, R.anim.close_main);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(DataSqlTrans.this, EditSqlTrans.class);
+            intent.putExtra(ToDoDatabase.TRANS_ID, id);
+            // активити вернет результат если будет вызвано с помощью этого метода
+            startActivityForResult(intent, ACTIVITY_EDIT);
+            overridePendingTransition(R.anim.open_next, R.anim.close_main);
 
-            }
         });
 
     }

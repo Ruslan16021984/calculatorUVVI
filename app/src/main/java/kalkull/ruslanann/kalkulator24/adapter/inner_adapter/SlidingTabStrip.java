@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
-package kalkull.ruslanann.kalkulator24.inner_fragmenrs;
+package kalkull.ruslanann.kalkulator24.adapter.inner_adapter;
  
 import android.content.Context;
 import android.graphics.Canvas;

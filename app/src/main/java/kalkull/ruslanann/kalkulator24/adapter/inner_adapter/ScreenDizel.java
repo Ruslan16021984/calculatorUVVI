@@ -1,30 +1,30 @@
-package kalkull.ruslanann.kalkulator24.inner_fragmenrs;
-
+package kalkull.ruslanann.kalkulator24.adapter.inner_adapter;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import kalkull.ruslanann.kalkulator24.R;
-import kalkull.ruslanann.kalkulator24.adapter.AdapterDV;
+import kalkull.ruslanann.kalkulator24.adapter.AdapterDizel;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by CARD on 15.02.2016.
  */
-public class ScreenDV extends Fragment {
+public class ScreenDizel extends Fragment {
     private SlidingTabLayout mSlidingTabLayout;
     private ViewPager mViewPager;
-    public ScreenDV() {
+    public ScreenDizel() {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.screen_one, container, false);
+        View rootView = inflater.inflate(R.layout.generator, container, false);
 
 
         return rootView;
@@ -32,8 +32,8 @@ public class ScreenDV extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Get the ViewPager and set it's PagerAdapter so that it can display items
-        mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        AdapterDV adapter = new AdapterDV(getActivity(),getChildFragmentManager() );
+        mViewPager = (ViewPager) view.findViewById(R.id.viewpager1);
+        AdapterDizel adapter = new AdapterDizel(getActivity(),getChildFragmentManager() );
         mViewPager.setAdapter(adapter);
 
         // Give the SlidingTabLayout the ViewPager, this must be
@@ -41,5 +41,4 @@ public class ScreenDV extends Fragment {
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setViewPager(mViewPager);
     }
-
 }

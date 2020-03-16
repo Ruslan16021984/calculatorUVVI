@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import butterknife.ButterKnife;
 import kalkull.ruslanann.kalkulator24.R;
 import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
 
@@ -41,6 +42,7 @@ public class FragmentLight extends BaseFragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_loan_calculator, container, false);
+        unbinder = ButterKnife.bind(this, view);
         etNam1 = (EditText)view.findViewById(R.id.etNam1);
         etEtNam2 = (EditText)view.findViewById(R.id.etNam2);
         etNam3 = (EditText)view.findViewById(R.id.etNam3);

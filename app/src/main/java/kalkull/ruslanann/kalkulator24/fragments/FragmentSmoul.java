@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.math.BigDecimal;
 
+import butterknife.ButterKnife;
 import kalkull.ruslanann.kalkulator24.R;
 import kalkull.ruslanann.kalkulator24.base_fragment.BaseFragment;
 import kalkull.ruslanann.kalkulator24.database.ToDoDatabase;
@@ -44,7 +45,6 @@ public class FragmentSmoul extends BaseFragment implements View.OnClickListener 
     private TextView tvResult;
     private TextView tvResult2;
     private TextView tvResult5;
-//    private TextView nomber;
     private String mCurFileName = "";
     String[] faza = {"ab", "bc", "ac", "a0", "b0", "c0"};
     private String oper = "";
@@ -71,6 +71,7 @@ public class FragmentSmoul extends BaseFragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R
                 .layout.fragment_fragment_tn, container, false);
+        unbinder = ButterKnife.bind(this, view);
         mDbHelper = new ToDoDatabase(getContext());
         etNam1 = (EditText) view.findViewById(R.id.etNam1);
         etEtNam2 = (EditText) view.findViewById(R.id.etNam2);
@@ -87,12 +88,6 @@ public class FragmentSmoul extends BaseFragment implements View.OnClickListener 
         fpAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, faza);
         sPoloz.setAdapter(fpAdapter);
 
-//        File folder = new File(mPath);
-//
-//// Если папки не существует, то создадим её
-//        if (!folder.exists()) {
-//            folder.mkdir();
-//        }
 
         return view;
 
@@ -150,13 +145,14 @@ public class FragmentSmoul extends BaseFragment implements View.OnClickListener 
             case R.id.button:
                 oper = "  ";
                 result = (float) (num2 * 0.075 / 150 / num1);
-                tvResult.setText(String.format(oper + "%.6f", result) + " " + "Ом");
+                float res1 = new BigDecimal(result).setScale(6, BigDecimal.ROUND_HALF_UP).floatValue();
+                tvResult.setText(res1 + " " + "Ом");
                 result2 = result * 255 / (235 + num3);
-                tvResult2.setText(String.format(oper + "%.6f", result2) + " " + "Ом");
-            //    result2 = Float.parseFloat(String.format(oper + "%.6f", result2));
-                result2 = new BigDecimal(result2).setScale(6, BigDecimal.ROUND_HALF_UP).floatValue();
+                float res2 = new BigDecimal(result2).setScale(6, BigDecimal.ROUND_HALF_UP).floatValue();
+                tvResult2.setText(res2 + " " + "Ом");
                 result3 = (result2 / num4) * 100 - 100;
-                tvResult5.setText(String.format(oper + "%.4f", result3) + " "+"%");
+                float res3 = new BigDecimal(result3).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+                tvResult5.setText(res3 + " " + "%");
                 if (result3 != 0) {
                     float i = (float) result3;
                     if (i > -2 && i < 2) tvResult5.setTextColor(Color.GREEN);
@@ -168,7 +164,6 @@ public class FragmentSmoul extends BaseFragment implements View.OnClickListener 
         }
 
     }
-
 
 
     private void saveState() {
@@ -194,6 +189,7 @@ public class FragmentSmoul extends BaseFragment implements View.OnClickListener 
 
 
     }
+
     private void showSaveSdDialog() {
         initSppiner();
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -207,27 +203,20 @@ public class FragmentSmoul extends BaseFragment implements View.OnClickListener 
         builder.setView(root);
         builder.setTitle("Сохранение файла");
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                if (TextUtils.isEmpty(nomber.toString())) {
-                    Toast.makeText(getActivity(), "Данные ОБМОТКА И ПОЛОЖЕНИЕ не введены",
-                            Toast.LENGTH_LONG).show();}else {
-                    saveFile(editFileName.getText().toString());
-                    mCurFileName = editFileName.getText().toString();
-                }
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            // TODO Auto-generated method stub
+            if (TextUtils.isEmpty(nomber.toString())) {
+                Toast.makeText(getActivity(), "Данные ОБМОТКА И ПОЛОЖЕНИЕ не введены",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                saveFile(editFileName.getText().toString());
+                mCurFileName = editFileName.getText().toString();
             }
         });
 
-        builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                dialog.cancel();
-            }
+        builder.setNegativeButton("Отмена", (dialog, which) -> {
+            // TODO Auto-generated method stub
+            dialog.cancel();
         });
         builder.show();
     }
@@ -239,14 +228,14 @@ public class FragmentSmoul extends BaseFragment implements View.OnClickListener 
 
             BufferedWriter bW;
 
-            bW = new BufferedWriter(new FileWriter(file,true));
-            massage = nomber.toString()+"\n"
-                    +" изм А= "
+            bW = new BufferedWriter(new FileWriter(file, true));
+            massage = nomber.toString() + "\n"
+                    + " изм А= "
                     + tvResult.getText().toString() + " "
-                    +"прив 20 С= "
+                    + "прив 20 С= "
                     + tvResult2.getText().toString() + " "
-                    +"расх= "
-                    + tvResult5.getText().toString()+ "\n"
+                    + "расх= "
+                    + tvResult5.getText().toString() + "\n"
                     + "****************************";
             bW.write(massage);
             bW.newLine();
@@ -257,11 +246,12 @@ public class FragmentSmoul extends BaseFragment implements View.OnClickListener 
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
         }
     }
+
     private void initSppiner() {
         snomber = sPoloz.getSelectedItem().toString();
         fpAdapter.notifyDataSetChanged();
 
-        nomber = snomber + " " +fnomber;
+        nomber = snomber + " " + fnomber;
     }
 
 }

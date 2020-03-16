@@ -3,13 +3,15 @@ package kalkull.ruslanann.kalkulator24.base_fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import androidx.fragment.app.Fragment;
+
 import java.io.File;
 
+import butterknife.Unbinder;
 import kalkull.ruslanann.kalkulator24.database.ToDoDatabase;
 
 /**
@@ -39,6 +41,8 @@ public class BaseFragment extends Fragment {
     protected ArrayAdapter<String> spAdapter;
     protected ArrayAdapter<String> fpAdapter;
 
+    protected Unbinder unbinder;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,12 @@ public class BaseFragment extends Fragment {
         setHasOptionsMenu(true);
         mPath = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOCUMENTS);
+                File folder = new File(String.valueOf(mPath));
+
+// Если папки не существует, то создадим её
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
 
     }
 
@@ -62,5 +72,9 @@ public class BaseFragment extends Fragment {
         this.context = context;
     }
 
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }
